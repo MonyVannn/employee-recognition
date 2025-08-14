@@ -4,7 +4,6 @@ import { Recognition, Reaction, Comment } from "@/lib/types";
 // In-memory pub/sub for this demo - in production use Redis or similar
 export const pubsub = new PubSub();
 
-// Subscription event types
 export const SUBSCRIPTION_EVENTS = {
   RECOGNITION_CREATED: "RECOGNITION_CREATED",
   RECOGNITION_UPDATED: "RECOGNITION_UPDATED",
@@ -17,7 +16,6 @@ export const subscriptionResolvers = {
   Subscription: {
     recognitionCreated: {
       subscribe: (_: any, { userId }: { userId?: string }) => {
-        // If userId provided, filter for that user's notifications
         if (userId) {
           return pubsub.asyncIterator([
             `${SUBSCRIPTION_EVENTS.RECOGNITION_CREATED}_${userId}`,
@@ -61,14 +59,11 @@ export const subscriptionResolvers = {
   },
 };
 
-// Helper functions to publish events
 export const publishRecognitionCreated = (recognition: Recognition) => {
-  // Publish to general feed
   pubsub.publish(SUBSCRIPTION_EVENTS.RECOGNITION_CREATED, {
     recognitionCreated: recognition,
   });
 
-  // Publish to recipient's personal feed
   pubsub.publish(
     `${SUBSCRIPTION_EVENTS.RECOGNITION_CREATED}_${recognition.recipientId}`,
     {

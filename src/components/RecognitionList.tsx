@@ -6,7 +6,7 @@ import { GET_RECOGNITIONS } from "@/lib/queries";
 export default function RecognitionList() {
   const { data, loading, error, refetch } = useQuery(GET_RECOGNITIONS, {
     variables: { limit: 10 },
-    pollInterval: 5000, // Poll every 5 seconds for demo
+    pollInterval: 5000, //poll every 5 sec for demo
   });
 
   if (loading) return <div>Loading recognitions...</div>;

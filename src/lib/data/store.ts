@@ -6,7 +6,7 @@ class DataStore {
   private reactions: Map<string, Reaction> = new Map();
   private comments: Map<string, Comment> = new Map();
 
-  // User methods
+  // user methods
   addUser(user: User): User {
     this.users.set(user.id, user);
     return user;
@@ -20,7 +20,7 @@ class DataStore {
     return Array.from(this.users.values());
   }
 
-  // Recognition methods with validation
+  // recognition methods with validation
   addRecognition(recognition: Recognition): Recognition {
     // Validate that recipient exists
     const recipient = this.getUser(recognition.recipientId);
@@ -30,7 +30,7 @@ class DataStore {
       );
     }
 
-    // Validate that sender exists (if not anonymous)
+    // validate that sender exists (if not anonymous)
     if (!recognition.isAnonymous && recognition.senderId) {
       const sender = this.getUser(recognition.senderId);
       if (!sender) {
@@ -52,7 +52,6 @@ class DataStore {
     return Array.from(this.recognitions.values());
   }
 
-  // Get valid recognitions (where both sender and recipient exist)
   getValidRecognitions(): Recognition[] {
     return this.getAllRecognitions().filter((recognition) => {
       const recipient = this.getUser(recognition.recipientId);
@@ -79,7 +78,6 @@ class DataStore {
 
   // Reaction methods
   addReaction(reaction: Reaction): Reaction {
-    // Validate that recognition exists
     const recognition = this.getRecognition(reaction.recognitionId);
     if (!recognition) {
       throw new Error(

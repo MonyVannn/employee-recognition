@@ -18,7 +18,6 @@ const server = new ApolloServer({
 
 export const handler = startServerAndCreateNextHandler(server, {
   context: async (req: any) => {
-    // In App Router, req.headers is a Map-like object
     const userId = req.headers.get("x-user-id") || undefined;
 
     return {
@@ -27,5 +26,4 @@ export const handler = startServerAndCreateNextHandler(server, {
   },
 });
 
-// Export for both GET and POST
 export { handler as GET, handler as POST };

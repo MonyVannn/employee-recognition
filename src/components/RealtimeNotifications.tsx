@@ -18,17 +18,17 @@ export default function RealtimeNotifications({
 
   // Poll for new recognitions every 5 seconds when enabled
   const { data, error } = useQuery(GET_RECOGNITIONS, {
-    variables: { limit: 50 }, // Get more to detect new ones
-    pollInterval: isEnabled ? 5000 : 0, // Poll every 5 seconds when enabled
+    variables: { limit: 50 },
+    pollInterval: isEnabled ? 5000 : 0,
     skip: !isEnabled || !currentUserId,
-    fetchPolicy: "cache-and-network", // Always check for updates
+    fetchPolicy: "cache-and-network", // always check for updates
   });
 
   useEffect(() => {
     if (data?.recognitions && isEnabled) {
       const currentRecognitions = data.recognitions;
 
-      // Check for new recognitions
+      // check for new recognitions
       if (previousRecognitions.current.length > 0) {
         const newRecognitions = currentRecognitions.filter(
           (current: any) =>
@@ -37,9 +37,9 @@ export default function RealtimeNotifications({
             )
         );
 
-        // Add notifications for new recognitions
+        // add notifications for new recognitions
         newRecognitions.forEach((recognition: any) => {
-          // Only notify if it's for the current user or if they can see it
+          //only notify if it's for the current user or if they can see it
           const isForCurrentUser = recognition.recipientId === currentUserId;
           const isFromCurrentUser = recognition.senderId === currentUserId;
           const isPublic = recognition.visibility === "PUBLIC";
@@ -53,7 +53,7 @@ export default function RealtimeNotifications({
 
             setNotifications((prev) => [newNotification, ...prev.slice(0, 4)]); // Keep last 5
 
-            // Auto-remove after 8 seconds
+            //auto-remove after 8 seconds
             setTimeout(() => {
               setNotifications((prev) =>
                 prev.filter((n) => n.timestamp !== newNotification.timestamp)
@@ -89,7 +89,7 @@ export default function RealtimeNotifications({
 
         {isEnabled && (
           <div className="space-y-1">
-            <p className="text-green-600 text-xs">📡 Polling every 5 seconds</p>
+            <p className="text-green-600 text-xs">Polling every 5 seconds</p>
             <p className="text-gray-500 text-xs">
               (WebSocket subscriptions fallback)
             </p>
@@ -106,7 +106,6 @@ export default function RealtimeNotifications({
         )}
       </div>
 
-      {/* Notification toasts */}
       {notifications.map((notification) => (
         <div
           key={notification.timestamp}
@@ -118,8 +117,8 @@ export default function RealtimeNotifications({
         >
           <div className="text-sm font-semibold">
             {notification.type === "received"
-              ? "🎉 You got recognized!"
-              : "👀 New Recognition!"}
+              ? "You got recognized!"
+              : "New Recognition!"}
           </div>
           <div className="text-xs">
             {notification.isAnonymous ? "Someone" : notification.sender?.name}{" "}

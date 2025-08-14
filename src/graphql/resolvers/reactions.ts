@@ -39,7 +39,6 @@ export const reactionResolvers = {
 
       const savedReaction = dataStore.addReaction(reaction);
 
-      // Publish real-time update
       publishReactionAdded(savedReaction);
 
       return savedReaction;
@@ -54,8 +53,6 @@ export const reactionResolvers = {
         throw new Error("Authentication required");
       }
 
-      // In a real implementation, we'd remove the reaction from the store
-      // For now, just return true
       return true;
     },
 
@@ -81,8 +78,6 @@ export const reactionResolvers = {
         createdAt: new Date().toISOString(),
       };
 
-      // In a real implementation, we'd have a comments store
-      // For now, just publish the event
       publishCommentAdded(comment);
 
       return comment;
@@ -97,7 +92,6 @@ export const reactionResolvers = {
         throw new Error("Authentication required");
       }
 
-      // Implementation would check ownership and delete
       return true;
     },
   },

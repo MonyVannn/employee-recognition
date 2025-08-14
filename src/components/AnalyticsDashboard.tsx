@@ -17,7 +17,7 @@ export default function AnalyticsDashboard({
 
   const { data, loading, error, refetch } = useQuery(GET_ANALYTICS, {
     variables: { department: department || undefined, dateFrom, dateTo },
-    skip: !currentUserId, // Only run if user is logged in
+    skip: !currentUserId,
   });
 
   if (!currentUserId) {
@@ -95,7 +95,6 @@ export default function AnalyticsDashboard({
 
       {data?.analytics && (
         <div className="space-y-6">
-          {/* Overview Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="bg-blue-50 p-4 rounded">
               <h3 className="font-semibold text-blue-800">
@@ -107,7 +106,6 @@ export default function AnalyticsDashboard({
             </div>
           </div>
 
-          {/* Team Stats */}
           <div>
             <h3 className="text-lg font-semibold mb-3">Recognitions by Team</h3>
             <div className="space-y-2">
@@ -125,7 +123,6 @@ export default function AnalyticsDashboard({
             </div>
           </div>
 
-          {/* Keyword Stats */}
           <div>
             <h3 className="text-lg font-semibold mb-3">Top Keywords</h3>
             <div className="flex flex-wrap gap-2">
@@ -140,7 +137,6 @@ export default function AnalyticsDashboard({
             </div>
           </div>
 
-          {/* Top Recognizers */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="text-lg font-semibold mb-3">Top Recognizers</h3>

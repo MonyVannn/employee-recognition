@@ -5,9 +5,9 @@ const httpLink = createHttpLink({
   uri: "/api/graphql",
 });
 
-// Auth link to add user ID header (for demo purposes)
+// authentication link to add user ID header (for demo purposes)
 const authLink = setContext((_, { headers }) => {
-  // In a real app, you'd get this from authentication state
+  //in a real app, you'd get this from authentication state
   const userId =
     typeof window !== "undefined" ? localStorage.getItem("userId") : null;
 

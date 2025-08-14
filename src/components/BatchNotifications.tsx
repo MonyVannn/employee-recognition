@@ -15,20 +15,20 @@ export default function BatchNotifications({
   const [batchNotifications, setBatchNotifications] = useState<any[]>([]);
   const [showBatch, setShowBatch] = useState(false);
 
-  // Query for recognitions since last batch
+  // query for recognitions since last batch
   const { data, refetch } = useQuery(GET_RECOGNITIONS, {
     variables: { limit: 100 },
     skip: !currentUserId,
     fetchPolicy: "network-only",
   });
 
-  // Check for batch updates every 10 minutes
+  //check for batch updates every 10 mins
   useEffect(() => {
     if (!currentUserId) return;
 
     const interval = setInterval(() => {
       checkForBatchUpdates();
-    }, 10 * 60 * 1000); // 10 minutes
+    }, 10 * 60 * 1000); // 10 mins
 
     return () => clearInterval(interval);
   }, [currentUserId, lastBatchTime]);
@@ -68,7 +68,7 @@ export default function BatchNotifications({
       <div className="bg-white border-l-4 border-blue-500 rounded-lg shadow-lg p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-sm text-gray-800">
-            📬 Batch Update ({batchNotifications.length} new)
+            Batch Update ({batchNotifications.length} new)
           </h3>
           <button
             onClick={dismissBatch}

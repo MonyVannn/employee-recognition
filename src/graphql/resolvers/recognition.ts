@@ -28,8 +28,6 @@ export const recognitionResolvers = {
     ) => {
       const recognition = dataStore.getRecognition(id);
       if (!recognition) return null;
-
-      // Check visibility permissions
       if (!canViewRecognition(recognition, context.userId)) {
         return null;
       }
@@ -58,10 +56,7 @@ export const recognitionResolvers = {
       },
       context: { userId?: string }
     ) => {
-      // Use valid recognitions only
       let recognitions = dataStore.getValidRecognitions();
-
-      // Apply filters
       if (recipientId) {
         recognitions = recognitions.filter(
           (r) => r.recipientId === recipientId
@@ -171,8 +166,6 @@ export const recognitionResolvers = {
       if (!recognition) {
         throw new Error("Recognition not found");
       }
-
-      // Check if user can edit (sender or admin)
       if (
         recognition.senderId !== context.userId &&
         !isAdminUser(context.userId)
@@ -206,21 +199,15 @@ export const recognitionResolvers = {
         return false;
       }
 
-      // Check if user can delete (sender or admin)
       if (
         recognition.senderId !== context.userId &&
         !isAdminUser(context.userId)
       ) {
         throw new Error("Not authorized to delete this recognition");
       }
-
-      // In a real implementation, we'd have a delete method
-      // For now, we'll just return true
       return true;
     },
   },
-
-  // Update the Recognition type resolver section:
 
   Recognition: {
     sender: (parent: Recognition) => {
@@ -241,7 +228,7 @@ export const recognitionResolvers = {
         console.error(
           `Recipient with ID ${parent.recipientId} not found for recognition ${parent.id}`
         );
-        // Since recipient is non-nullable, we need to throw an error or return a placeholder
+
         throw new Error(`Recipient not found for recognition ${parent.id}`);
       }
       return recipient;
@@ -252,7 +239,7 @@ export const recognitionResolvers = {
     },
 
     comments: (parent: Recognition) => {
-      return []; // TODO: Implement comments
+      return [];
     },
   },
 };
@@ -309,5 +296,5 @@ function extractKeywordsFromMessage(message: string): string[] {
   ];
   return words
     .filter((word) => word.length > 3 && !stopWords.includes(word))
-    .slice(0, 5); // Limit to 5 keywords
+    .slice(0, 5);
 }

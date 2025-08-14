@@ -20,7 +20,6 @@ export const resolvers = {
     ...subscriptionResolvers.Subscription,
   },
 
-  // Type resolvers
   User: {
     ...userResolvers.User,
   },
